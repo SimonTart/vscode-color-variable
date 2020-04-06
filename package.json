@@ -1,6 +1,6 @@
 {
-	"name": "color-variable-replace",
-	"displayName": "color-variable-replace",
+	"name": "color-hero",
+	"displayName": "color-hero",
 	"description": "replace color value with color variable name",
 	"version": "0.0.1",
 	"engines": {
@@ -10,24 +10,29 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.helloWorld"
+		"*"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"configuration": {
-			"title": "color-variable-replace",
+			"title": "color-hero",
 			"properties": {
-				"CVR.variables": {
+				"colorHero.variables": {
 					"type": "array",
 					"default": [],
 					"description": "定义颜色变量的文件"
+				},
+				"colorHero.onSave": {
+					"type": "boolean",
+					"default": false,
+					"description": "保存时是否自动替换"
 				}
 			}
 		},
 		"commands": [
 			{
-				"command": "extension.helloWorld",
-				"title": "Hello World"
+				"command": "extension.colorHeroReplace",
+				"title": "color-hero: replace"
 			}
 		]
 	},
@@ -54,6 +59,6 @@
 	},
 	"dependencies": {
 		"postcss": "^7.0.27",
-		"postcss-color-variable": "0.0.2"
+		"postcss-color-variable": "0.0.4"
 	}
 }
