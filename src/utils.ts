@@ -1,11 +1,11 @@
-import { workspace, TextEditor, TextDocument, Position, Range, Uri, TextEditorEdit } from "vscode";
+import { workspace, TextEditor, TextDocument, Position, Range, Uri, TextEditorEdit, window } from "vscode";
 import * as path from 'path';
 import * as postcss from 'postcss';
 import * as postcssColorVariable from 'postcss-color-variable/src/index.js';
 import { SupportLangs } from "./constant";
 
-export async function postCSSReplace(input:string, variableFiles:string[]) {
-  return await postcss([postcssColorVariable({ variables: variableFiles })]).process(input, { from: undefined });
+export function postCSSReplace(input:string, variableFiles:string[]) {
+  return postcss([postcssColorVariable({ variables: variableFiles })]).process(input, { from: undefined });
 }
 
 export function isSupportedLanguage(languageId: string): boolean {
@@ -18,7 +18,7 @@ export function getConfig(uri:Uri) {
 }
 
 
-export function replaceDocument(textEditor: TextEditor) {
+export function replaceDocument(textEditor: TextEditor, alertWarning?: boolean) {
   const document = textEditor.document;
   const start: Position = new Position(0, 0);
   const end: Position = new Position(document.lineCount - 1, document.lineAt(document.lineCount - 1).text.length);
@@ -35,8 +35,16 @@ export function replaceDocument(textEditor: TextEditor) {
   return postCSSReplace(content, colorVariables)
   .then((output) => {
     textEditor.edit((editor) => {
-      editor.replace(range, output.content);
+      if (content !== output.content) {
+        editor.replace(range, output.content);
+      }
     });
+    if (config && config.alertWarning) {
+      const warnings = output.warnings().filter(w => w.plugin === 'postcss-color-variable');
+      if (warnings.length>0) {
+        window.showWarningMessage(warnings[0].text);
+      }
+    }
   })
   .catch((e:Error) => { 
     console.error('[ColorHero]', e);
