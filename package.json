@@ -64,6 +64,6 @@
 	},
 	"dependencies": {
 		"postcss": "^7.0.27",
-		"postcss-color-variable": "0.0.6"
+		"postcss-color-variable": "0.0.7"
 	}
 }

@@ -2,10 +2,10 @@ import { workspace, TextEditor, TextDocument, Position, Range, Uri, TextEditorEd
 import * as path from 'path';
 import * as postcss from 'postcss';
 import * as postcssColorVariable from 'postcss-color-variable/src/index.js';
-import { SupportLangs } from "./constant";
+import { SupportLangs, LangIdToSyntax } from "./constant";
 
-export function postCSSReplace(input:string, variableFiles:string[]) {
-  return postcss([postcssColorVariable({ variables: variableFiles })]).process(input, { from: undefined });
+export function postCSSReplace(input:string, config:{ variables: string[], syntax?: string }) {
+  return postcss([postcssColorVariable(config)]).process(input, { from: undefined });
 }
 
 export function isSupportedLanguage(languageId: string): boolean {
@@ -32,7 +32,7 @@ export function replaceDocument(textEditor: TextEditor, alertWarning?: boolean) 
 
   const colorVariables = (config.variables || []).map((variable: string) => path.resolve(folder.uri.fsPath, variable));
   
-  return postCSSReplace(content, colorVariables)
+  return postCSSReplace(content, { variables: colorVariables, syntax: LangIdToSyntax[document.languageId] })
   .then((output) => {
     textEditor.edit((editor) => {
       if (content !== output.content) {
