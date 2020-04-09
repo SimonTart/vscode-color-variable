@@ -1,5 +1,8 @@
-export const SupportLangs = ['less'];
+import * as LessSyntax  from 'postcss-less';
 
-export const LangIdToSyntax = {
-  less: 'LESS'
+export const SupportLangIds = ['less'];
+
+
+export const LangIdToSyntax =  {
+  less: LessSyntax
 }
