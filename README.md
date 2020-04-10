@@ -1,55 +1,37 @@
-# color-variable README
+# color-variable
+把输入的颜色值替换为预定义的颜色变量（目前只支持less）
 
-Todo
+颜色变量定义文件
+```less
+@link-color: #aaa;
+```
 
-## Features
+编辑的文件
+```less
+.link {
+  color: #aaa;
+}
+```
 
-Todo
+替换后的文件
+```less
+.link {
+  color: @link-color;
+}
+```
 
-## Requirements
+## 使用前配置
+1. 在项目中创建`.colorvarrc.json` 文件
+2. 设置变量文件路径
+```json
+{
+  "variableFiles": ["./src/color.less"] // 定义颜色变量的文件
+}
+```
 
-Todo
+## 插件设置
+* `colorVar.onSave`: 保存时自动替换
+* `colorVar.alertWarning`: 找不到颜色对应的变量时，弹出警告
+* ``
 
-## Extension Settings
-
-Todo
-
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+## 项目中配置颜色
