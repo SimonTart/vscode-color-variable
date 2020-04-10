@@ -1,9 +1,9 @@
 {
-	"name": "color-hero",
+	"name": "color-variable",
 	"publisher": "zengxb94",
-	"displayName": "color-hero",
+	"displayName": "color-variable",
 	"description": "replace color value with color variable name",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"engines": {
 		"vscode": "^1.43.0"
 	},
@@ -16,19 +16,19 @@
 	"main": "./out/extension.js",
 	"contributes": {
 		"configuration": {
-			"title": "color-hero",
+			"title": "color-variable",
 			"properties": {
-				"colorHero.variables": {
+				"colorVar.variableFiles": {
 					"type": "array",
 					"default": [],
 					"description": "定义颜色变量的文件"
 				},
-				"colorHero.onSave": {
+				"colorVar.onSave": {
 					"type": "boolean",
 					"default": false,
 					"description": "保存时是否自动替换"
 				},
-				"colorHero.alertWarning": {
+				"colorVar.alertWarning": {
 					"type": "boolean",
 					"default": false,
 					"description": "找不到对应变量名是否警告"
@@ -37,8 +37,8 @@
 		},
 		"commands": [
 			{
-				"command": "extension.colorHeroReplace",
-				"title": "color-hero: replace"
+				"command": "extension.colorVarReplace",
+				"title": "color-variable: replace"
 			}
 		]
 	},
@@ -64,8 +64,9 @@
 		"vscode-test": "^1.3.0"
 	},
 	"dependencies": {
+		"cosmiconfig": "^6.0.0",
 		"postcss": "^7.0.27",
-		"postcss-color-variable": "0.0.8",
+		"postcss-color-variable": "0.0.13",
 		"postcss-less": "^3.1.4"
 	}
 }

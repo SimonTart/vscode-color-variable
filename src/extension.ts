@@ -27,7 +27,7 @@ export function activate(context: vscode.ExtensionContext) {
 		e.waitUntil(replaceDocument(currentEditor));
 	});
 
-	let disposable = vscode.commands.registerCommand('extension.colorHeroReplace', () => {
+	let disposable = vscode.commands.registerCommand('extension.colorVarReplace', () => {
 		const textEditor:vscode.TextEditor|undefined = vscode.window.activeTextEditor;
 		if (!textEditor) {
 			return;

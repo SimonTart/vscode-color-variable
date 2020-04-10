@@ -3,11 +3,46 @@ import * as path from 'path';
 import * as postcss from 'postcss';
 import * as postcssColorVariable from 'postcss-color-variable/src/index.js';
 import { SupportLangIds, LangIdToSyntax } from "./constant";
+import { cosmiconfigSync } from 'cosmiconfig';
+
+const ConfigFileName = 'colorvar'
+
+const explorerSync = cosmiconfigSync(ConfigFileName)
+
+function resolveFileConfig (uri: Uri) {
+  const workspaceFolder = workspace.getWorkspaceFolder(uri);
+  if (!workspaceFolder) {
+    return {};
+  }
+
+  const result = explorerSync.search(workspaceFolder.uri.fsPath)
+  if (!result) {
+    return {}
+  }
+
+  if (result.config && result.config.variableFiles) {
+    return Object.assign({}, result.config, {
+      variableFiles: result.config.variableFiles.map(filePath => {
+        if (path.isAbsolute(filePath)) {
+          return filePath
+        }
+
+        if (result.filepath) {
+          const fileFolder = path.dirname(result.filepath);
+          return path.resolve(fileFolder, filePath)
+        }
+
+        return filePath
+      })
+    })
+  }
+
+  return result.config || {}
+}
 
 
-export function postCSSReplace(input:string, config:{ variables: string[], languageId?: string }) {
-  const syntax = config.languageId? LangIdToSyntax[config.languageId]: undefined;
-  console.debug(config, LangIdToSyntax.less, syntax)
+export function postCSSReplace(input:string, config:{ variableFiles: string[], syntax?: string }) {
+  const syntax = config.syntax? LangIdToSyntax[config.syntax]: undefined;
   return postcss([postcssColorVariable(config)]).process(input, { from: undefined, syntax });
 }
 
@@ -17,7 +52,9 @@ export function isSupportedLanguage(languageId: string): boolean {
 
 
 export function getConfig(uri:Uri) {
-  return workspace.getConfiguration("colorHero", uri);
+  const workspaceConfig = workspace.getConfiguration("colorVar", uri);
+  const fileConfig = resolveFileConfig(uri);
+  return Object.assign({}, workspaceConfig, fileConfig);
 }
 
 
@@ -33,9 +70,14 @@ export function replaceDocument(textEditor: TextEditor, alertWarning?: boolean) 
     return Promise.resolve();
   }
 
-  const colorVariables = (config.variables || []).map((variable: string) => path.resolve(folder.uri.fsPath, variable));
-  
-  return postCSSReplace(content, { variables: colorVariables, languageId: document.languageId })
+  const variableFiles = (config.variableFiles || []).map((filePath: string) => {
+    if (path.isAbsolute(filePath)) {
+      return filePath;
+    }
+    return path.resolve(folder.uri.fsPath, filePath);
+  });
+
+  return postCSSReplace(content, { variableFiles, syntax: document.languageId })
   .then((output) => {
     textEditor.edit((editor) => {
       if (content !== output.content) {

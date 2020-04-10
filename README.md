@@ -1,4 +1,4 @@
-# color-hero README
+# color-variable README
 
 Todo
 
