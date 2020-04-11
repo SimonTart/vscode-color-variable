@@ -25,13 +25,10 @@
 2. 设置变量文件路径
 ```json
 {
-  "variableFiles": ["./src/color.less"] // 定义颜色变量的文件
+  "variableFiles": ["./src/color.less"], // 定义颜色变量的文件
 }
 ```
 
 ## 插件设置
 * `colorVar.onSave`: 保存时自动替换
 * `colorVar.alertWarning`: 找不到颜色对应的变量时，弹出警告
-* ``
-
-## 项目中配置颜色
