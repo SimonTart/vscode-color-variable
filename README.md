@@ -8,15 +8,19 @@
 
 编辑的文件
 ```less
-.link {
-  color: #aaa;
+.foo {
+    color: #0a1;
+    background: rgb(170, 170, 170);
+    border: 1px solid rgba(170, 170, 170, 0.1);
 }
 ```
 
 替换后的文件
 ```less
-.link {
+.foo {
   color: @link-color;
+  background: @link-color;
+  border: 1px solid fade(@link-color, 10%);
 }
 ```
 
