@@ -3,7 +3,7 @@
 	"publisher": "zengxb94",
 	"displayName": "color-variable",
 	"description": "replace color value with color variable name",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"engines": {
 		"vscode": "^1.43.0"
 	},
