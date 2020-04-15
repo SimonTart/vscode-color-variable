@@ -1,7 +1,7 @@
 import { workspace, TextEditor, TextDocument, Position, Range, Uri, TextEditorEdit, window, DebugConsoleMode } from "vscode";
 import * as path from 'path';
 import * as postcss from 'postcss';
-import * as postcssColorVariable from 'postcss-color-variable/src/index.js';
+import * as postcssColorVariable from 'postcss-color-variable';
 import { SupportLangIds, LangIdToSyntax } from "./constant";
 import { cosmiconfigSync } from 'cosmiconfig';
 
@@ -20,29 +20,25 @@ function resolveFileConfig (uri: Uri) {
     return {}
   }
 
-  if (result.config && result.config.variableFiles) {
-    return Object.assign({}, result.config, {
-      variableFiles: result.config.variableFiles.map(filePath => {
-        if (path.isAbsolute(filePath)) {
-          return filePath
-        }
-
-        if (result.filepath) {
-          const fileFolder = path.dirname(result.filepath);
-          return path.resolve(fileFolder, filePath)
-        }
-
-        return filePath
-      })
-    })
+  if (result.config) {
+    result.config.configPath = result.filepath;
   }
 
   return result.config || {}
 }
 
 
-export function postCSSReplace(input:string, config:{ variableFiles: string[], syntax?: string }) {
-  const syntax = config.syntax? LangIdToSyntax[config.syntax]: undefined;
+export function postCSSReplace(input:string, config:{
+  variableFiles: string[];
+  syntax?: string;
+  autoImport?: boolean;
+  alias?: Record<string, string>;
+  usingAlias?: string;
+  sourcePath?: string;
+  configPath?: string;
+}) {
+  const syntax = config.syntax ? LangIdToSyntax[config.syntax]: undefined;
+  console.debug('config', config);
   return postcss([postcssColorVariable(config)]).process(input, { from: undefined, syntax });
 }
 
@@ -77,7 +73,15 @@ export function replaceDocument(textEditor: TextEditor, alertWarning?: boolean) 
     return path.resolve(folder.uri.fsPath, filePath);
   });
 
-  return postCSSReplace(content, { variableFiles, syntax: document.languageId })
+  return postCSSReplace(content, {
+    variableFiles,
+    syntax: document.languageId,
+    autoImport: config.autoImport,
+    alias: config.alias,
+    usingAlias: config.usingAlias,
+    sourcePath: document.uri.fsPath,
+    configPath: config.configPath,
+  })
   .then((output) => {
     textEditor.edit((editor) => {
       if (content !== output.content) {
@@ -93,6 +97,5 @@ export function replaceDocument(textEditor: TextEditor, alertWarning?: boolean) 
   })
   .catch((e:Error) => { 
     console.error('[ColorHero]', e);
-    console.debug(e);
   });
 }

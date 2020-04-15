@@ -1,0 +1,7 @@
+{
+  "variableFiles": ["./folder/less/color.less"],
+  "autoImport": true,
+  "alias": {
+    "@": "./"
+  }
+}

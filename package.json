@@ -3,7 +3,7 @@
 	"publisher": "zengxb94",
 	"displayName": "color-variable",
 	"description": "replace color value with color variable name",
-	"version": "0.0.5",
+	"version": "0.1.0",
 	"engines": {
 		"vscode": "^1.43.0"
 	},
@@ -18,11 +18,6 @@
 		"configuration": {
 			"title": "color-variable",
 			"properties": {
-				"colorVar.variableFiles": {
-					"type": "array",
-					"default": [],
-					"description": "定义颜色变量的文件"
-				},
 				"colorVar.onSave": {
 					"type": "boolean",
 					"default": false,
@@ -66,7 +61,7 @@
 	"dependencies": {
 		"cosmiconfig": "^6.0.0",
 		"postcss": "^7.0.27",
-		"postcss-color-variable": "0.0.18",
+		"postcss-color-variable": "^0.2.3",
 		"postcss-less": "^3.1.4"
 	}
 }
