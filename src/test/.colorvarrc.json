@@ -3,5 +3,6 @@
   "autoImport": true,
   "alias": {
     "@": "./"
-  }
+  },
+  "usingAlias": "@"
 }
