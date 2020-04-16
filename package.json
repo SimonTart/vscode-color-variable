@@ -3,7 +3,7 @@
 	"publisher": "zengxb94",
 	"displayName": "Color-Variable",
 	"description": "replace color value with color variable name",
-	"version": "0.2.2",
+	"version": "0.2.3",
 	"engines": {
 		"vscode": "^1.43.0"
 	},
@@ -62,5 +62,9 @@
 		"postcss": "^7.0.27",
 		"postcss-color-variable": "^0.3.0",
 		"postcss-less": "^3.1.4"
-	}
+	},
+	"repository": {
+    "type": "git",
+    "url": "https://github.com/SimonTart/vscode-color-variable"
+  }
 }

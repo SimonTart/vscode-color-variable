@@ -25,7 +25,6 @@
 ```
 
 ## 配置
-### 替换变量配置
 在项目中创建`.colorvarrc.json` 文件
 ```json
 {
@@ -40,6 +39,6 @@
 }
 ```
 
-### 插件设置
+## 插件设置
 * `colorVar.onSave`: 保存时自动替换
 * `colorVar.alertWarning`: 找不到颜色对应的变量时，弹出警告
