@@ -1,0 +1,12 @@
+
+@import "~@/color.scss";
+
+.button {
+  color: $white-color;
+  background: fade(#fff, 10%);
+
+  &:hover {
+    color: $link-color;
+  }
+}
+

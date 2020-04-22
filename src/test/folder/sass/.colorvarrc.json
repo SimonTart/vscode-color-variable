@@ -1,0 +1,9 @@
+{
+  "variableFiles": ["./color.scss"],
+  "autoImport": true,
+  "alias": {
+    "@": "./"
+  },
+  "usingAlias": "@",
+  "syntax": "scss"
+}

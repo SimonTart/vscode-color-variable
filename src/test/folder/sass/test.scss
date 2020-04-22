@@ -1,0 +1,10 @@
+
+@import "~@/color.scss";
+
+.button {
+  color: $white-color;
+
+  &:hover {
+    color: $link-color;
+  }
+}

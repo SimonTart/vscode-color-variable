@@ -1,5 +1,5 @@
 {
-  "variableFiles": ["./folder/less/color.less"],
+  "variableFiles": ["./color.less"],
   "autoImport": true,
   "alias": {
     "@": "./"

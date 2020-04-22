@@ -1,0 +1,13 @@
+
+@import "~@/color.scss";
+
+.button {
+  color: $white-color;
+  background: #000;
+
+  &:hover {
+    color: $white-color;
+  }
+}
+
+
