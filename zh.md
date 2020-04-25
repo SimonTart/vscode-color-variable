@@ -26,7 +26,7 @@
 
 ## 配置
 在项目中创建`.colorvarrc.json` 文件
-```json
+```js
 {
   "variableFiles": ["./src/color.less"], // 定义颜色变量的文件
   "syntax": "less", // 语法，支持 less 和 scss 。默认 less
